@@ -1,6 +1,6 @@
 {
-	"name": "AspireApp2",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+	"name": "AgentCamp Madrid 2026",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:10.0",
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
@@ -10,7 +10,20 @@
 			"extensions": [
 				"ms-dotnettools.csharp",
 				"ms-dotnettools.vscode-dotnet-runtime"
+				"ms-azuretools.vscode-azurefunctions",
+				"ms-dotnettools.csdevkit",
+				"GitHub.copilot-chat",
+				"GitHub.copilot",
+				"HashiCorp.terraform"
 			]
 		}
+	},
+		
+	// postCreateCommand.sh parameters: $1=SA password, $2=dacpac path, $3=sql script(s) path
+	"features": {
+		"ghcr.io/jlaundry/devcontainer-features/azure-functions-core-tools:1": {},
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/terraform:1": {},
+		"ghcr.io/devcontainers/features/azure-cli:1": {}
 	}
 }

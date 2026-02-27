@@ -18,6 +18,9 @@
         "-y",
         "mcp-mermaid"
       ]
-    }
-  }
+    },
+    "jorge-azurefunction": {
+      "url": "https://agentcampmcp-hharhnf3hja5g0dm.westeurope-01.azurewebsites.net/runtime/webhooks/mcp/sse",
+      }
+    },
 }
