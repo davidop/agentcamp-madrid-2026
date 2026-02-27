@@ -168,12 +168,13 @@ The solution implements a careful dependency management strategy:
 
 ## Technology Stack
 
-- **.NET Aspire**: Distributed application framework
+- **.NET Aspire 13.1.2**: Distributed application framework
+- **.NET 10**: Target platform
 - **Blazor Server**: Frontend framework
 - **Minimal API**: Lightweight API framework
 - **SQL Server**: Relational database
 - **Redis**: In-memory cache
-- **OpenTelemetry**: Observability and tracing
+- **OpenTelemetry 1.15.0**: Observability and tracing
 - **Docker**: Containerization platform
 
 ## Intended Use
@@ -192,6 +193,54 @@ The solution is designed for:
 - **CI/CD Integration**: Automated build and deployment pipelines
 - **Production Deployment**: Container orchestration platforms
 - **Monitoring**: Comprehensive observability stack
+
+---
+
+## Changelog
+
+### Update to .NET Aspire 13.1.2 (February 2026)
+
+This update upgrades the solution to .NET Aspire 13.1.2 and .NET 10, bringing the latest features and improvements:
+
+#### Package Versions Updated
+
+| Package | Previous | Updated |
+|---|---|---|
+| `Aspire.AppHost.Sdk` | 9.0.0 | **13.1.2** |
+| `Aspire.Hosting.AppHost` | 9.3.1 | **13.1.2** |
+| `Aspire.Hosting.Redis` | 9.3.1 | **13.1.2** |
+| `Aspire.Hosting.Azure.ApplicationInsights` | 9.3.1 | **13.1.2** |
+| `Aspire.Hosting.Azure.CognitiveServices` | 9.3.1 | **13.1.2** |
+| `Aspire.Hosting.SqlServer` | 9.3.2 | **13.1.2** |
+| `Aspire.StackExchange.Redis.OutputCaching` | 9.3.1 | **13.1.2** |
+| `Aspire.Hosting.Testing` | 9.3.1 | **13.1.2** |
+| `Microsoft.AspNetCore.OpenApi` | 9.0.7 | **10.0.3** |
+| `Microsoft.Extensions.Http.Resilience` | 9.7.0 | **10.3.0** |
+| `Microsoft.Extensions.ServiceDiscovery` | 9.3.1 | **10.3.0** |
+| `OpenTelemetry.*` | 1.12.0 | **1.15.0** |
+| `MSTest` | 3.9.3 | **4.1.0** |
+| Target Framework | net9.0 | **net10.0** |
+
+#### Key Highlights in .NET Aspire 13.x
+
+- **New versioning scheme**: Starting with .NET Aspire 13.0.0, the project adopted a new versioning strategy independent of .NET major version numbers, enabling faster and more flexible release cadences.
+- **Improved container orchestration**: Enhanced lifetime management and more reliable container health detection.
+- **Enhanced Azure integration**: Improved integrations for Azure Application Insights and Azure Cognitive Services (Azure OpenAI).
+- **Better developer dashboard**: Performance and usability improvements to the Aspire developer dashboard.
+- **Stability and bug fixes**: Numerous reliability improvements across all hosting packages.
+
+#### Key Highlights in .NET 10
+
+- **Performance improvements**: Further JIT compiler optimizations and reduced memory footprint.
+- **Minimal API enhancements**: New features in `Microsoft.AspNetCore.OpenApi` 10.x for better OpenAPI document generation.
+- **Resilience updates**: `Microsoft.Extensions.Http.Resilience` 10.x aligns with the Polly v8 resilience pipeline model.
+- **Service Discovery**: `Microsoft.Extensions.ServiceDiscovery` 10.x includes improved DNS-based discovery and load-balancing support.
+
+#### Key Highlights in OpenTelemetry 1.15.0
+
+- Improved stability for ASP.NET Core, HTTP, and runtime instrumentation.
+- Enhanced OTLP exporter reliability and connection handling.
+- Updated semantic conventions aligned with the latest OpenTelemetry specification.
 
 ---
 
