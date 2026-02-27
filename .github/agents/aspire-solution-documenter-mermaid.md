@@ -1,3 +1,9 @@
+---
+name: Aspire Solution Documenter (ASCII/Mermaid)
+description: 'Analiza soluciones .NET Aspire y genera documentación completa con diagramas de arquitectura en formato ASCII o Mermaid.'
+tools: []
+---
+
 # Aspire Solution Documenter (ASCII/Mermaid)
 
 ## Description
