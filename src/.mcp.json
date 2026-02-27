@@ -11,6 +11,13 @@
       "headers": {
         "Authorization": "Bearer <YOUR_HF_TOKEN>"
       }
+    },
+    "mcp-mermaid": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-mermaid"
+      ]
     }
   }
 }
