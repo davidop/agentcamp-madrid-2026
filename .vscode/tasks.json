@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Launch Aspire Solution",
+			"command": "dotnet run --project src/AspireApp2.AppHost/AspireApp2.AppHost.csproj",
+			"group": "build",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
