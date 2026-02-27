@@ -13,11 +13,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspireApp2.ApiService\AspireApp2.ApiService.csproj" />
+    <ProjectReference Include="..\AspireApp2.FunctionApp\AspireApp2.FunctionApp.csproj" />
     <ProjectReference Include="..\AspireApp2.Web\AspireApp2.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="13.1.2" />
+    <PackageReference Include="Aspire.Hosting.Azure.Functions" Version="13.1.2" />
     <PackageReference Include="Aspire.Hosting.Redis" Version="13.1.2" />
     <PackageReference Include="Aspire.Hosting.Azure.ApplicationInsights" Version="13.1.2" />
     <PackageReference Include="Aspire.Hosting.Azure.CognitiveServices" Version="13.1.2" />

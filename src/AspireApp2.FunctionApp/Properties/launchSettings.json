@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "AspireApp2.FunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7258",
+      "launchBrowser": false
+    }
+  }
+}
