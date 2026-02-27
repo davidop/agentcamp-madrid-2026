@@ -1,0 +1,54 @@
+[
+  {
+    "type": "project_scan",
+    "file_count": 22,
+    "timestamp": "2026-02-27T17:21:56.379887",
+    "metadata": {
+      "services": [
+        {
+          "class": "AspireApp2_ApiService",
+          "name": "apiservice"
+        },
+        {
+          "class": "AspireApp2_Web",
+          "name": "webfrontend"
+        }
+      ],
+      "resources": [
+        {
+          "type": "AddSqlServer",
+          "name": "sql"
+        },
+        {
+          "type": "AddRedis",
+          "name": "cache"
+        },
+        {
+          "type": "AddDatabase",
+          "name": "productsDb"
+        }
+      ],
+      "dependencies": [
+        {
+          "from": "apiservice",
+          "to": "productsDb"
+        },
+        {
+          "from": "webfrontend",
+          "to": "cache"
+        },
+        {
+          "from": "webfrontend",
+          "to": "apiservice"
+        }
+      ],
+      "endpoints": [
+        {
+          "method": "Get",
+          "path": "/weatherforecast",
+          "file": "AspireApp2.ApiService/Program.cs"
+        }
+      ]
+    }
+  }
+]
