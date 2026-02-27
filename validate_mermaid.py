@@ -29,57 +29,73 @@ def validate_mermaid_syntax(file_path):
             # Basic syntax validation
             lines = block.strip().split('\n')
             
-            # Check for graph declaration
+            # Check for graph/diagram declaration
             graph_declaration = False
+            diagram_type = None
             for line in lines:
-                if line.strip().startswith('graph '):
+                stripped = line.strip()
+                if stripped.startswith('graph '):
                     graph_declaration = True
-                    print(f"  ✅ Graph declaration found: {line.strip()}")
+                    diagram_type = 'graph'
+                    print(f"  ✅ Graph declaration found: {stripped}")
+                    break
+                elif stripped.startswith('sequenceDiagram'):
+                    graph_declaration = True
+                    diagram_type = 'sequence'
+                    print(f"  ✅ Sequence diagram declaration found")
+                    break
+                elif stripped.startswith('flowchart'):
+                    graph_declaration = True
+                    diagram_type = 'flowchart'
+                    print(f"  ✅ Flowchart declaration found: {stripped}")
                     break
             
             if not graph_declaration:
-                print("  ❌ No graph declaration found")
+                print("  ❌ No graph/diagram declaration found")
                 return False
             
-            # Count nodes and connections
-            nodes = []
-            connections = []
-            
-            for line in lines:
-                line = line.strip()
-                if not line or line.startswith('%%') or line.startswith('classDef') or line.startswith('class '):
-                    continue
+            # Count nodes and connections (only for graph/flowchart types)
+            if diagram_type in ('graph', 'flowchart'):
+                nodes = []
+                connections = []
                 
-                # Look for node definitions
-                node_pattern = r'(\w+)\[(.*?)\]'
-                node_matches = re.findall(node_pattern, line)
-                for match in node_matches:
-                    if match[0] not in nodes:
-                        nodes.append(match[0])
+                for line in lines:
+                    line = line.strip()
+                    if not line or line.startswith('%%') or line.startswith('classDef') or line.startswith('class ') or line.startswith('style '):
+                        continue
+                    
+                    # Look for node definitions
+                    node_pattern = r'(\w+)\[(.*?)\]'
+                    node_matches = re.findall(node_pattern, line)
+                    for match in node_matches:
+                        if match[0] not in nodes:
+                            nodes.append(match[0])
+                    
+                    # Look for connections
+                    connection_patterns = [
+                        r'(\w+)\s*-->\s*(\w+)',  # -->
+                        r'(\w+)\s*-\.->\s*(\w+)', # -.->
+                        r'(\w+)\s*<---->\s*(\w+)' # <---->
+                    ]
+                    
+                    for pattern in connection_patterns:
+                        conn_matches = re.findall(pattern, line)
+                        connections.extend(conn_matches)
                 
-                # Look for connections
-                connection_patterns = [
-                    r'(\w+)\s*-->\s*(\w+)',  # -->
-                    r'(\w+)\s*-\.->\s*(\w+)', # -.->
-                    r'(\w+)\s*<---->\s*(\w+)' # <---->
-                ]
+                print(f"  📊 Found {len(nodes)} nodes: {', '.join(nodes)}")
+                print(f"  🔗 Found {len(connections)} connections")
                 
-                for pattern in connection_patterns:
-                    conn_matches = re.findall(pattern, line)
-                    connections.extend(conn_matches)
-            
-            print(f"  📊 Found {len(nodes)} nodes: {', '.join(nodes)}")
-            print(f"  🔗 Found {len(connections)} connections")
-            
-            # Validate that connections reference valid nodes
-            valid_connections = True
-            for conn in connections:
-                if conn[0] not in nodes or conn[1] not in nodes:
-                    print(f"  ❌ Invalid connection: {conn[0]} -> {conn[1]}")
-                    valid_connections = False
-            
-            if valid_connections:
-                print(f"  ✅ All connections are valid")
+                # Validate that connections reference valid nodes
+                valid_connections = True
+                for conn in connections:
+                    if conn[0] not in nodes or conn[1] not in nodes:
+                        print(f"  ❌ Invalid connection: {conn[0]} -> {conn[1]}")
+                        valid_connections = False
+                
+                if valid_connections:
+                    print(f"  ✅ All connections are valid")
+            else:
+                print(f"  ℹ️  {diagram_type} diagram — skipping node/connection validation")
             
             # Check for styling
             has_styling = any('classDef' in line for line in lines)
@@ -95,11 +111,11 @@ def validate_mermaid_syntax(file_path):
 def main():
     """Main validation function."""
     
-    docs_dir = "/home/runner/work/CopilotAspireArchitectureGeneration/CopilotAspireArchitectureGeneration/docs"
-    
     # Find the latest generated file
     import os
     import glob
+    
+    docs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
     
     pattern = os.path.join(docs_dir, "SolutionOverview-*.md")
     files = glob.glob(pattern)

@@ -18,7 +18,7 @@ def analyze_aspire_architecture():
     """
     Analyze the Aspire solution architecture from Program.cs and return structured data.
     """
-    program_cs_path = "/home/runner/work/CopilotAspireArchitectureGeneration/CopilotAspireArchitectureGeneration/src/AspireApp2.AppHost/Program.cs"
+    program_cs_path = os.path.join(os.path.dirname(__file__), "src", "AspireApp2.AppHost", "Program.cs")
     
     architecture = {
         "services": [],
@@ -123,6 +123,61 @@ graph TB
     
     return mermaid_chart
 
+
+def generate_event_flow_diagram():
+    """Generate a Mermaid sequence diagram showing the startup event flow."""
+
+    return """```mermaid
+sequenceDiagram
+    autonumber
+    participant AppHost as 🎯 AppHost
+    participant DB as 🗄️ SQL Server
+    participant Cache as ⚡ Redis Cache
+    participant API as 🔗 ApiService
+    participant Web as 🌐 Web Frontend
+
+    Note over AppHost: Application startup initiated
+
+    AppHost->>+DB: start container (SQL Server 2025-latest)
+    DB-->>-AppHost: ready ✅
+
+    AppHost->>+Cache: start container (Redis)
+    Cache-->>-AppHost: ready ✅
+
+    AppHost->>+API: start service
+    API->>+DB: health check / WaitFor
+    DB-->>-API: healthy ✅
+    API-->>-AppHost: ready ✅
+
+    AppHost->>+Web: start service
+    Web->>+Cache: health check / WaitFor
+    Cache-->>-Web: healthy ✅
+    Web->>+API: health check / WaitFor
+    API-->>-Web: healthy ✅
+    Web-->>-AppHost: ready ✅
+
+    Note over AppHost: All services healthy
+```"""
+
+
+def generate_pipeline_diagram():
+    """Generate a Mermaid flowchart showing the documentation pipeline."""
+
+    return """```mermaid
+flowchart LR
+    A([🐍 scraper.py]) -->|project files + URLs| B([🔍 extract_aspire_metadata])
+    B -->|structured metadata| C([📊 Architecture Diagram])
+    B -->|structured metadata| D([📋 Event Flow Diagram])
+    C -->|Mermaid graph TB| E([📝 generate_documentation])
+    D -->|Mermaid sequenceDiagram| E
+    E -->|SolutionOverview-*.md| F([📁 docs/])
+    F -->|review| G([🤖 MCP Agent])
+    G -->|enrich + validate| F
+
+    style A fill:#fff9c4,stroke:#f9a825
+    style G fill:#e8f5e9,stroke:#2e7d32
+```"""
+
 def generate_ascii_diagram(architecture):
     """Generate ASCII diagram as alternative format."""
     
@@ -154,6 +209,8 @@ def generate_documentation_content(architecture, timestamp):
     
     mermaid_chart = generate_mermaid_chart(architecture)
     ascii_diagram = generate_ascii_diagram(architecture)
+    event_flow = generate_event_flow_diagram()
+    pipeline_diagram = generate_pipeline_diagram()
     
     content = f"""# Solution Overview
 
@@ -169,6 +226,10 @@ The primary goal of this solution is to provide a reference implementation for:
 - Showcasing how to document and visualize the architecture of Aspire-based solutions
 - Automating architecture documentation generation using Mermaid charts
 
+## Documentation Pipeline
+
+{pipeline_diagram}
+
 ## Architecture
 
 The solution is composed of several projects and services, orchestrated by the Aspire AppHost. The main components work together to provide a distributed weather forecast application with caching and persistence capabilities.
@@ -180,6 +241,10 @@ The solution is composed of several projects and services, orchestrated by the A
 ### Architecture Diagram (ASCII Alternative)
 
 {ascii_diagram}
+
+## Event Flow (Startup Sequence)
+
+{event_flow}
 
 ## Main Components
 
@@ -276,6 +341,9 @@ The solution implements a careful dependency management strategy:
 - **Redis**: In-memory cache
 - **OpenTelemetry**: Observability and tracing
 - **Docker**: Containerization platform
+- **Python**: Scraping and pipeline automation
+- **Mermaid**: Architecture and event-flow visualisation
+- **MCP Agents**: Intelligent documentation enrichment
 
 ## Intended Use
 
@@ -321,7 +389,7 @@ def main():
     
     # Create filename with timestamp
     filename = f"SolutionOverview-{timestamp}.md"
-    docs_dir = "/home/runner/work/CopilotAspireArchitectureGeneration/CopilotAspireArchitectureGeneration/docs"
+    docs_dir = os.path.join(os.path.dirname(__file__), "docs")
     filepath = os.path.join(docs_dir, filename)
     
     # Ensure docs directory exists
