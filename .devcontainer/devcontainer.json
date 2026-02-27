@@ -1,0 +1,16 @@
+{
+	"name": "AspireApp2",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"postCreateCommand": "gh extension install github/gh-aw",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.vscode-dotnet-runtime"
+			]
+		}
+	}
+}
