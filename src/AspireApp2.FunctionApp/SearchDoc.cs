@@ -39,7 +39,7 @@ namespace AspireApp2.FunctionApp
 
         [Function("SearchPdf")]
         public async Task<object> SearchPdfAsync(
-            [McpToolTrigger("search_pdf", "Búsqueda semántica dentro de un PDF usando embeddings.")]
+            [McpToolTrigger("search_pdf", "Busqueda semantica dentro de un PDF usando embeddings.")]
         ToolInvocationContext context,
 
             [McpToolProperty("fileName", "Nombre del PDF a procesar.")]
@@ -49,7 +49,7 @@ namespace AspireApp2.FunctionApp
         string query
         )
         {
-            _logger.LogInformation("Búsqueda semántica '{query}' en PDF: {fileName}", query, fileName);
+            _logger.LogInformation("Busqueda semantica '{query}' en PDF: {fileName}", query, fileName);
 
             // 1. Leer PDF desde Blob Storage
             var container = _blobServiceClient.GetBlobContainerClient("pdfs");
