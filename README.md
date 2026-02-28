@@ -72,13 +72,78 @@ dotnet run --project src/AspireApp2.AppHost/AspireApp2.AppHost.csproj
 
 ## MCP Servers
 
-The `src/.mcp.json` file configures the following MCP servers:
+The `.vscode/mcp.json` file configures the following MCP servers for VS Code Copilot:
 
 | Server | Purpose |
 |--------|---------|
 | `playwright` | Browser automation and screenshot capture |
 | `mcp-mermaid` | Mermaid diagram rendering and validation |
-| `hf-mcp-server` | Hugging Face model access (requires token) |
+| `remote-mcp-azure-function` | Azure Function–hosted MCP server (requires key) |
+| `github-agentic-workflows` | GitHub agentic workflows via `gh` CLI |
+| `aspire` | Exposes running Aspire resources, health status, logs, and traces to Copilot |
+
+### Aspire MCP Server
+
+The `aspire` server lets GitHub Copilot interact with your running .NET Aspire application directly from VS Code Chat. It provides:
+
+- **Resource listing** — see all Aspire services and their current state/endpoints
+- **Health status** — identify Unhealthy or Degraded resources at a glance
+- **Logs** — fetch recent log output for any running resource
+- **Traces** — correlate distributed traces across microservices
+
+#### Prerequisites
+
+- [.NET Aspire workload](https://learn.microsoft.com/dotnet/aspire/fundamentals/setup-tooling) (`dotnet workload install aspire`) — provides the `dotnet aspire` global tool
+- AppHost running locally (`dotnet run --project src/AspireApp2.AppHost/AspireApp2.AppHost.csproj`)
+- GitHub Copilot extension in VS Code with **Agent mode** enabled
+
+#### Quick start
+
+1. Start the AppHost:
+   ```bash
+   dotnet run --project src/AspireApp2.AppHost/AspireApp2.AppHost.csproj
+   ```
+2. Open VS Code → **Copilot Chat** → click **Tools** → confirm `aspire` appears in the list.
+3. In Copilot Chat (Agent mode) try:
+   ```
+   List all Aspire resources with their health status and endpoints.
+   ```
+
+## Troubleshooting
+
+### `aspire` command not found / `dotnet aspire` not found
+
+The Aspire CLI ships as part of the `aspire` .NET workload. Install it with:
+
+```bash
+dotnet workload install aspire
+```
+
+After installation, verify:
+
+```bash
+dotnet aspire --version
+```
+
+### Verify that the MCP server starts
+
+Run the stdio server manually and check for a clean start:
+
+```bash
+dotnet aspire mcp stdio
+```
+
+A successful start prints a JSON-RPC handshake line. Any error here (e.g. "AppHost not running") must be resolved before VS Code can use the tool.
+
+### Locating the Aspire Dashboard URL
+
+When the AppHost starts it prints a line such as:
+
+```
+Login to the dashboard at https://localhost:17169/login?t=<token>
+```
+
+Copy that URL into your browser to inspect resources, logs, and traces visually.
 
 ## Repository structure
 

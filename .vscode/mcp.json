@@ -32,6 +32,11 @@
       "command": "gh",
       "args": ["aw", "mcp-server"],
       "cwd": "${workspaceFolder}"
+    },
+    "aspire": {
+      "command": "dotnet",
+      "args": ["aspire", "mcp", "stdio"],
+      "cwd": "${workspaceFolder}"
     }
   }
 }
