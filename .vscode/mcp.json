@@ -2,25 +2,30 @@
   "servers": {
     "playwright": {
       "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    },
-    "hf-mcp-server": {
-      "url": "https://huggingface.co/mcp",
-      "headers": {
-        "Authorization": "Bearer <YOUR_HF_TOKEN>"
-      }
+      "args": ["@playwright/mcp@latest"]
     },
     "mcp-mermaid": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-mermaid"
-      ]
+      "args": ["-y", "mcp-mermaid"]
     },
-    "jorge-azurefunction": {
+    "azure-function-mcp": {
+      "type": "sse",
+      "url": "http://localhost:7071/runtime/webhooks/mcp/sse"
+    },
+    "remote-mcp-azure-function": {
+      "type": "sse",
       "url": "https://agentcampmcp-hharhnf3hja5g0dm.westeurope-01.azurewebsites.net/runtime/webhooks/mcp/sse",
+      "headers": {
+        "x-functions-key": "${env:AZURE_FUNCTIONS_MCP_KEY}"
       }
     },
+    "github-agentic-workflows": {
+      "command": "gh",
+      "args": [
+        "aw",
+        "mcp-server"
+      ],
+      "cwd": "${workspaceFolder}"
+    }
+  }
 }

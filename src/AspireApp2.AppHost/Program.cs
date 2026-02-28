@@ -34,6 +34,7 @@ builder.AddProject<Projects.AspireApp2_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
-builder.AddAzureFunctionsProject<Projects.AspireApp2_FunctionApp>("aspireapp2-functionapp");
+builder.AddAzureFunctionsProject<Projects.AspireApp2_FunctionApp>("mcp-functionapp");
+
 
 builder.Build().Run();
