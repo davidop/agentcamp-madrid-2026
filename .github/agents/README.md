@@ -21,6 +21,22 @@ This folder contains custom GitHub Copilot agent prompts for .NET Aspire solutio
   - Includes deployment scripts, parameters files, and comprehensive documentation
   - Supports multi-environment configurations (dev/staging/prod)
 
+### Workflow Agents
+
+- **`agentic-workflows.agent.md`**
+  - Dispatcher agent for GitHub Agentic Workflows (gh-aw)
+  - Routes requests to specialized prompts: create, update, debug, upgrade, report, shared components, Dependabot, and test coverage
+  - Supports the full gh-aw lifecycle: `gh aw init`, `gh aw compile`, `gh aw logs`, `gh aw audit`
+  - Provides guidance on AI-powered workflow creation in markdown with YAML frontmatter
+
+### MCP Integration Agents
+
+- **`mcp-azurefunction.agent.md`**
+  - Adapter between GitHub Copilot Chat and remote MCP tools hosted on Azure Functions
+  - Reads and searches PDF content stored in Azure Blob Storage
+  - Activated by messages prefixed with `azurefunction:`
+  - Supports two actions: `get_pdf_text` (retrieve full PDF text) and `search_pdf` (semantic search)
+
 ## When To Use Each Agent
 
 ### Documentation Agent (Mermaid Variant)
@@ -51,6 +67,34 @@ This folder contains custom GitHub Copilot agent prompts for .NET Aspire solutio
 - Azure subscription with appropriate permissions
 - Docker for building and pushing container images
 - Understanding of Azure services and pricing
+
+### Agentic Workflows Agent
+**Use when you need:**
+- Create a new GitHub Agentic Workflow (gh-aw) from scratch
+- Debug a failing workflow or analyze workflow run logs
+- Upgrade existing workflows to a new gh-aw version
+- Design report-generating or shared reusable workflow components
+- Fix Dependabot PRs targeting generated workflow manifest files
+
+**Prerequisites:**
+- `gh` CLI with the `gh-aw` extension installed (`gh extension install github/gh-aw`)
+- GitHub Copilot access
+
+### MCP Azure Function Agent
+**Use when you need:**
+- Retrieve the full text of a PDF stored in Azure Blob Storage
+- Run semantic searches across PDFs via Azure Function MCP endpoints
+
+**Prerequisites:**
+- Azure Function app deployed and running with MCP endpoints
+- `remote-mcp-azure-function` MCP server configured in your Copilot environment
+- PDFs uploaded to the configured Azure Blob Storage container
+
+**Usage (in Copilot Chat):**
+```
+azurefunction: get_pdf_text MyDocument.pdf
+azurefunction: search_pdf MyDocument.pdf | what are the access control policies?
+```
 
 ## Output Locations
 
